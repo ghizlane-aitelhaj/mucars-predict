@@ -1,7 +1,14 @@
 fastapi
 uvicorn
+<<<<<<< HEAD
 scikit-learn==1.7.2
 joblib
 numpy
 pandas
 gradio
+=======
+scikit-learn
+joblib
+numpy
+pandas
+>>>>>>> 102b6d079680aff818aea7e3226b5cb73bf24cb9

@@ -24,7 +24,7 @@ def encode(col, val):
     le = encoders[col]
     if val in le.classes_:
         return le.transform([val])[0]
-    return 0  # valeur inconnue → 0
+    return 0
 
 def predict_price(brand, year, mileage, fiscal_power,
                   fuel, gearbox, condition, origin, first_owner, doors):
@@ -33,12 +33,12 @@ def predict_price(brand, year, mileage, fiscal_power,
             float(year),
             float(mileage),
             float(fiscal_power),
-            encode("Fuel",         fuel),
-            encode("Gearbox",      gearbox),
-            encode("Condition",    condition),
-            encode("Origin",       origin),
-            encode("First Owner",  first_owner),
-            encode("Brand",        brand),
+            encode("Fuel",        fuel),
+            encode("Gearbox",     gearbox),
+            encode("Condition",   condition),
+            encode("Origin",      origin),
+            encode("First Owner", first_owner),
+            encode("Brand",       brand),
             float(doors),
         ]])
 
@@ -46,7 +46,6 @@ def predict_price(brand, year, mileage, fiscal_power,
         X = scaler.transform(X)
         price = int(model.predict(X)[0])
 
-        # Fourchette ±10%
         low  = int(price * 0.90)
         high = int(price * 1.10)
 
@@ -69,20 +68,18 @@ with gr.Blocks(title="MUCars — Prédiction Prix Voitures Maroc", theme=gr.them
     with gr.Row():
         with gr.Column():
             gr.Markdown("### Informations du véhicule")
-
-            brand     = gr.Dropdown(BRANDS,     label="Marque",          value="Renault")
-            year      = gr.Slider(1990, 2024,   label="Année",           value=2018, step=1)
-            mileage   = gr.Slider(0, 500000,    label="Kilométrage (km)", value=80000, step=1000)
-            fp        = gr.Slider(4, 20,        label="Puissance fiscale (CV)", value=7, step=1)
-            doors     = gr.Slider(2, 5,         label="Nombre de portes", value=5, step=1)
+            brand  = gr.Dropdown(BRANDS,          label="Marque",                value="Renault")
+            year   = gr.Slider(1990, 2024,         label="Année",                 value=2018, step=1)
+            mileage= gr.Slider(0, 500000,          label="Kilométrage (km)",      value=80000, step=1000)
+            fp     = gr.Slider(4, 20,              label="Puissance fiscale (CV)", value=7, step=1)
+            doors  = gr.Slider(2, 5,               label="Nombre de portes",      value=5, step=1)
 
         with gr.Column():
             gr.Markdown("### Caractéristiques")
-
-            fuel       = gr.Dropdown(FUELS,        label="Carburant",        value="Diesel")
-            gearbox    = gr.Dropdown(GEARBOXES,    label="Boîte de vitesses", value="Manual")
-            condition  = gr.Dropdown(CONDITIONS,   label="État du véhicule",  value="Good")
-            origin     = gr.Dropdown(ORIGINS,      label="Origine",           value="WW in Morocco")
+            fuel        = gr.Dropdown(FUELS,        label="Carburant",              value="Diesel")
+            gearbox     = gr.Dropdown(GEARBOXES,    label="Boîte de vitesses",      value="Manual")
+            condition   = gr.Dropdown(CONDITIONS,   label="État du véhicule",       value="Good")
+            origin      = gr.Dropdown(ORIGINS,      label="Origine",                value="WW in Morocco")
             first_owner = gr.Dropdown(FIRST_OWNERS, label="Premier propriétaire ?", value="No")
 
     btn = gr.Button("🔍 Estimer le prix", variant="primary", size="lg")
